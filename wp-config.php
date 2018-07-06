@@ -4,7 +4,9 @@ require_once 'vendor/autoload.php';
 use Symfony\Component\Dotenv\Dotenv;
 
 $dotenv = new Dotenv();
-$dotenv->load(__DIR__.'/.env');
+try {
+	$dotenv->load(__DIR__.'/.env');
+} catch (Throwable $t) {}
 
 /**
  * The base configuration for WordPress
