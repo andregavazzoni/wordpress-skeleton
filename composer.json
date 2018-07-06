@@ -1,0 +1,22 @@
+{
+    "name": "andregavazzoni/wordpress-sandbox",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andre Gavazzoni",
+            "email": "andre.gavazzoni@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "symfony/dotenv": "^4.1",
+        "wp-cli/wp-cli": "^1.5"
+    },
+    "scripts": {
+        "install-wp": "if ! vendor/bin/wp core is-installed &> /dev/null; then vendor/bin/wp core download; exit 0; fi;"
+        ,
+        "post-update-cmd": "@install-wp",
+        "post-install-cmd": "@install-wp"
+    }
+}
