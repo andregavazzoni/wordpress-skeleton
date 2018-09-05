@@ -1,0 +1,47 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./docker/var/lib/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'docker'
+      MYSQL_DATABASE: 'docker'
+      MYSQL_USER: 'docker'
+      MYSQL_PASSWORD: 'docker'
+    ports:
+      - "23306:3306"
+    networks: 
+      wp_network:
+        aliases: 
+          - docker-db
+
+  wordpress:
+    build: ./docker/php
+    volumes:
+      - .:/var/www/html
+      - ./docker/var/log/apache2:/var/log/apache2
+    ports:
+      - "80:80"  
+      - "443:443"
+    links:
+      - db
+    networks: 
+      wp_network:
+        aliases: 
+          - docker-wp
+
+volumes:
+  db_data:
+
+networks:
+  wp_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      -
+        subnet: 172.8.8.0/24
